@@ -1,33 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="box">
-        <p>🎈</p>
-    </div>
-
-    <audio id="inflate">
-        <source src="/sounds/inflate.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-
-      <audio id="deflate">
-        <source src="/sounds/deflate.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-
-      <audio id="pop">
-        <source src="/sounds/pop.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-
-<script>
-  const balloon = document.querySelector("p");
+const balloon = document.querySelector("p");
   const box = document.querySelector(".box");
 
   let inflate = document.querySelector("#inflate");
@@ -52,15 +23,20 @@
     function popIt() {
         const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
         box.textContent = "💥";
+        box.classList.add("boom");
         inflate.pause();
         deflate.pause();
         pop.pause();
         removeEventListener("keydown", balloonChanges);
+        setTimeout(() => {
+            alert("Your balloon blew up! Get a new one by restarting");
+        }, 180)
+        
     }
 
     function checkBalloonSize() {
         const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
-        if (currentSize > 120) {
+        if (currentSize > 100) {
         pop.play();
         setTimeout(() => {
         popIt();
@@ -81,7 +57,7 @@
         }
 
         } else if (event.key == "ArrowDown") {
-            if (box.textContent === "💥") {
+            if (box.textContent === "💥" || currentSize === 0) {
                 deflate.pause()
             } else {
             deflate.play();
@@ -100,7 +76,3 @@
     }
 
   document.addEventListener("keydown", balloonChanges);
-
-</script>
-</body>
-</html>
