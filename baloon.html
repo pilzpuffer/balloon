@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <p>🎈</p>
+    </div>
+
+    <audio id="inflate">
+        <source src="/sounds/inflate.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+
+      <audio id="deflate">
+        <source src="/sounds/deflate.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+
+      <audio id="pop">
+        <source src="/sounds/pop.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+
+<script>
+  const balloon = document.querySelector("p");
+  const box = document.querySelector(".box");
+
+  let inflate = document.querySelector("#inflate");
+    let deflate = document.querySelector("#deflate");
+    let pop = document.querySelector("#pop");
+
+    const increaseFactor = 10;
+    const decreaseFactor = 10;
+
+    const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
+
+    function blowIt(increaseFactor) {
+            const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
+            balloon.style.fontSize = (currentSize + increaseFactor) + 'px';
+        }
+    
+    function shrinkIt(decreaseFactor) {
+            const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
+            balloon.style.fontSize = (currentSize - decreaseFactor) + 'px';
+        }
+
+    function popIt() {
+        const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
+        box.textContent = "💥";
+        inflate.pause();
+        deflate.pause();
+        pop.pause();
+        removeEventListener("keydown", balloonChanges);
+    }
+
+    function checkBalloonSize() {
+        const currentSize = parseFloat(window.getComputedStyle(balloon).getPropertyValue('font-size'));
+        if (currentSize > 120) {
+        pop.play();
+        setTimeout(() => {
+        popIt();
+        }, 150);
+        }
+    }
+    
+    function balloonChanges(event) {
+        if (event.key == "ArrowUp") {
+            if (box.textContent === "💥") {
+                inflate.pause()
+            } else {
+        inflate.play();
+        setTimeout(() => {
+        blowIt(increaseFactor)
+        }, 350);
+        checkBalloonSize();
+        }
+
+        } else if (event.key == "ArrowDown") {
+            if (box.textContent === "💥") {
+                deflate.pause()
+            } else {
+            deflate.play();
+            setTimeout(() => {
+            shrinkIt(increaseFactor)
+            }, 150);
+            checkBalloonSize();
+        }
+            } else {
+                if (box.textContent === "💥") {
+                    alert("Your ballon has already blown up! Get a new balloon by restarting")
+                } else {
+                alert("Use the arrow keys to change your balloon!");
+                }
+            } 
+    }
+
+  document.addEventListener("keydown", balloonChanges);
+
+</script>
+</body>
+</html>
