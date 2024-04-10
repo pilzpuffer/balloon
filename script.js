@@ -1,10 +1,12 @@
-const balloon = document.querySelector("p");
-  const box = document.querySelector(".box");
+    const balloon = document.querySelector("p");
+    const box = document.querySelector(".box");
 
-  let inflate = document.querySelector("#inflate");
+    //audio tracks
+    let inflate = document.querySelector("#inflate");
     let deflate = document.querySelector("#deflate");
     let pop = document.querySelector("#pop");
 
+    //can be adjusted if we need our balloon to grow/shrink faster or slower
     const increaseFactor = 10;
     const decreaseFactor = 10;
 
